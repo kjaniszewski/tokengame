@@ -1,0 +1,4 @@
+formatter.name: pretty
+suites:
+    game_suite:
+        namespace: KJ\Game

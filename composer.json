@@ -1,0 +1,20 @@
+{
+    "name": "krzysztofjaniszewski/norbert",
+    "type": "project",
+    "description": "A Game",
+    "autoload": {
+        "psr-0": {
+          "KJ\\Game": "src"
+        }
+    },
+    "require": {
+        "php": ">=7.0.0",
+        "phpspec/phpspec": "^3.1"
+    },
+    "require-dev": {
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "minimum-stability": "dev"
+}
