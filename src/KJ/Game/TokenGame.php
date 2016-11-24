@@ -76,7 +76,12 @@ class TokenGame
 
     public function tryToken($x, $y)
     {
+        if (!$this->isGameStarted()) {
+            throw new \Exception('Game is not started yet.');
+        }
+
         if ($this->checkIfTimeRanOut()) {
+            $this->stopGame();
             throw new \Exception('You lost. Time out');
         }
         $this->tryCount++;
@@ -84,7 +89,12 @@ class TokenGame
         $result = $this->board->revealAt($x, $y);
 
         if ($result === false && $this->tryCount === $this->maxTries) {
+            $this->stopGame();
             throw new \Exception('You lost. Max tries limit reached');
+        }
+
+        if ($result === true) {
+            $this->stopGame();
         }
 
         return $result;
@@ -97,5 +107,19 @@ class TokenGame
         $this->tryCount = 0;
     }
 
+    private function isGameStarted() : bool
+    {
+        return $this->startTime !== null;
+    }
 
+    public function stopGame()
+    {
+        $this->startTime = null;
+        $this->tryCount = 0;
+    }
+
+    public function getTryCount() : int
+    {
+        return $this->tryCount;
+    }
 }

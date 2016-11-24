@@ -96,6 +96,33 @@ class TokenGameSpec extends ObjectBehavior
         $this->getTimeLimit()->shouldReturn(50);
     }
 
+    function it_checks_if_try_is_out_of_bounds($board, ArrayStorage $arrayStorage)
+    {
+        $board->revealAt(10, 10)->willThrow(new \InvalidArgumentException());
+        $this->prepareBoard($board, $arrayStorage);
+
+        $this->startGame();
+        $this->shouldThrow('\InvalidArgumentException')->duringTryToken(10, 10);
+    }
+
+    function it_checks_if_game_is_started($board, ArrayStorage $arrayStorage)
+    {
+        $this->prepareBoard($board, $arrayStorage);
+
+        $this->shouldThrow('\Exception')->duringTryToken(1, 1);
+    }
+
+    function it_can_stop_game($board, ArrayStorage $arrayStorage)
+    {
+        $this->prepareBoard($board, $arrayStorage);
+
+        $this->startGame();
+        $this->stopGame();
+        
+        $this->getStartTime()->shouldBe(null);
+        $this->getTryCount()->shouldBe(0);
+    }
+
     function it_can_play_successfull_game($board, ArrayStorage $arrayStorage)
     {
         $this->prepareBoard($board, $arrayStorage);
